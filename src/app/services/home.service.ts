@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CartProduct } from '../model/Cart';
 import { Product } from '../model/product';
 import { UserOrder } from '../model/UserOrder';
@@ -10,30 +11,30 @@ import { UserOrder } from '../model/UserOrder';
 })
 export class HomeService {
   //private baseUrl = "http://localhost:8080";
-  private baseUrl = "https://medworld.herokuapp.com";
+  private baseUrl = environment.url;
   //private baseUrl = "https://8080-dbdedffdadadeeffdaabdfaccfeebafecbf.examlyiopb.examly.io";
   constructor(private httpClient:HttpClient) { }
 
   getProduct(id:string):Observable<Product>{
-    return this.httpClient.get<Product>(`${this.baseUrl}/product/${id}`)
+    return this.httpClient.get<Product>(`/product/${id}`)
   }
   getProducts(): Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.baseUrl}/home`);
+    return this.httpClient.get<Product[]>(`/home`);
   }
 
   addToCart(id:string,quantity:number):Observable<CartProduct>{
-    return this.httpClient.post<CartProduct>(`${this.baseUrl}/home/${id}`,{'id':id,'quantity':quantity});
+    return this.httpClient.post<CartProduct>(`/home/${id}`,{'id':id,'quantity':quantity});
   }
 
   getCartInfo(productId:string):Observable<CartProduct>{
-    return this.httpClient.get<CartProduct>(`${this.baseUrl}/home/${productId}`);
+    return this.httpClient.get<CartProduct>(`/home/${productId}`);
   }
 
   removeFromCart(id:string):Observable<Object>{
-    return this.httpClient.post(`${this.baseUrl}/cart/delete`,id);
+    return this.httpClient.post(`/cart/delete`,id);
   }
 
   getRecentBuys():Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.baseUrl}/getRecentBuys`);
+    return this.httpClient.get<Product[]>(`/getRecentBuys`);
   }
 }

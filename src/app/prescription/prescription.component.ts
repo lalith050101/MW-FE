@@ -2,6 +2,7 @@ import { query } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { CartProduct } from '../model/Cart';
 import { Product } from '../model/product';
 import { CartService } from '../services/cart.service';
@@ -14,6 +15,8 @@ import { OrderService } from '../services/order.service';
   styleUrls: ['./prescription.component.css'],
 })
 export class PrescriptionComponent implements OnInit {
+
+  url = '';
   payfor: string = '';
   orderType!: string; // cart/prod - (1)
   prodId: string = 'null'; // if single product
@@ -112,7 +115,7 @@ export class PrescriptionComponent implements OnInit {
     );
 
     this.httpClient
-      .post('https://medworld.herokuapp.com/prescription/upload', uploadImageData)
+      .post(this.url+'/prescription/upload', uploadImageData)
       .subscribe((data) => {
         if (data){
           this.getImage();
@@ -132,7 +135,7 @@ export class PrescriptionComponent implements OnInit {
   getImage() {
     //Make a call to Sprinf Boot to get the Image Bytes.
     this.httpClient
-      .get('https://medworld.herokuapp.com/prescription/' + localStorage.getItem('current_order'))
+      .get(this.url + '/prescription/' + localStorage.getItem('current_order'))
       .subscribe((res) => {
         this.retrieveResonse = res;
         this.base64Data = this.retrieveResonse.prescriptionImage;

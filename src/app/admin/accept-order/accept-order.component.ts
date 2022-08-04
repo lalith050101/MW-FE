@@ -5,6 +5,7 @@ import { CartProduct } from 'src/app/model/Cart';
 import { Order } from 'src/app/model/order';
 import { OrderList } from 'src/app/model/order-list';
 import { OrderService } from 'src/app/services/order.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-accept-order',
@@ -12,6 +13,9 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./accept-order.component.css']
 })
 export class AcceptOrderComponent implements OnInit {
+
+  url = ''
+
   orderId:string = "";
   orderData!:OrderList;
   orders:Order[] = [];
@@ -70,7 +74,7 @@ export class AcceptOrderComponent implements OnInit {
   getImage() {
     //Make a call to Sprinf Boot to get the Image Bytes.
     this.httpClient
-      .get('https://medworld.herokuapp.com/prescription/' + this.orderData.id)
+      .get(this.url+'/prescription/' + this.orderData.id)
       //.get('http://localhost:8080/prescription/' + this.orderData.id)
       .subscribe((res) => {
         this.retrieveResonse = res;
